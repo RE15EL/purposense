@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧩 Mini Theory of Change — Technical Challenge (React + Tailwind)
 
-## Getting Started
+## 🚀 Overview
 
-First, run the development server:
+Este proyecto implementa la interfaz **"Mini Theory of Change"** siguiendo las especificaciones descritas en el reto técnico adjunto.  
+El objetivo es construir una vista dinámica, modular y accesible que permita capturar y visualizar los siguientes elementos:
+
+- **The reason we exist** — Textarea con contador (N/250) y helper text.
+- **The people we serve** — Tag input con soporte de teclado (Enter, Backspace, ×).
+- **Assumptions** — Tabla editable con CRUD completo, validaciones y paginación.
+- **Outcome Cards** — Cuatro tarjetas de altura fija con scroll interno invisible:
+  - _Programmes_ (solo lectura)
+  - _Direct outcomes_ (accordion + CRUD)
+  - _Indirect outcomes_ (lista editable + scroll interno)
+  - _Ultimate impact_ (lista editable + scroll interno)
+- **Save button** — Consolida el estado local y muestra la estructura JSON resultante.
+
+## 🧱 Tech Stack
+
+| Layer             | Technology                                                 |
+| ----------------- | ---------------------------------------------------------- |
+| Framework         | **Next.js 15.5.6**                                         |
+| UI Library        | **Shadcn UI**                                              |
+| Styling           | **Tailwind CSS v4**, **tw-animate-css**                    |
+| Icons             | **lucide-react**                                           |
+| State Management  | **Zustand 5.0.8**                                          |
+| Schema Validation | **Zod 4.1.12**                                             |
+| Utilities         | **clsx**, **tailwind-merge**, **class-variance-authority** |
+
+## ⚙️ Installation
 
 ```bash
+# 1. Clona el repositorio
+git clone https://github.com/RE15EL/purposense.git
+cd purposense
+
+# 2. Instala dependencias
+npm install
+
+# 3. Inicia el servidor de desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 4. Abre el navegador
+http://localhost:3000
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
