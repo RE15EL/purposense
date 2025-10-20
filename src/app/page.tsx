@@ -1,11 +1,10 @@
-import TheoryOfChange from "@/components/TheoryOfChangeApp/TheoryOfChangeApp";
-import { Button } from "@/components/ui/button";
-
 import React from "react";
+
+import TheoryOfChange from "@/components/TheoryOfChangeApp/TheoryOfChangeApp";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <TheoryOfChange />
     </div>
   );
