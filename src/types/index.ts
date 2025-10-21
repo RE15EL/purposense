@@ -1,4 +1,8 @@
-export type Certainty = "very_certain" | "moderately_certain" | "uncertain";
+export type Certainty =
+  | "all"
+  | "very_certain"
+  | "moderately_certain"
+  | "uncertain";
 
 export interface Assumption {
   id: string;
