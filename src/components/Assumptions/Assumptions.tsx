@@ -9,11 +9,20 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "../ui/input-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Button } from "../ui/button";
 import { Paginator } from "../Paginator/Paginator";
 
 import { CERTAINTY_COLORS, CERTAINTY_LABELS } from "@/lib/constants";
 import { Assumption, Certainty } from "@/types";
+import { cn } from "@/lib/utils";
 
 interface AssumptionsTableProps {
   assumptions: Assumption[];
@@ -153,27 +162,43 @@ export const AssumptionsTable = ({
                     )}
                   </td>
                   <td className="p-3">
-                    <select
+                    <Select
                       value={assumption.certainty}
-                      onChange={(e) =>
+                      onValueChange={(value) =>
                         onUpdate(assumption.id, {
-                          certainty: e.target.value as Certainty,
+                          certainty: value as Certainty,
                         })
                       }
-                      className={`px-3 py-1 rounded-md text-sm font-medium border cursor-pointer ${
-                        CERTAINTY_COLORS[assumption.certainty]
-                      }`}
+                      aria-label="Select certainty level"
+                      aria-invalid={showCertaintyError}
                     >
-                      {Object.entries(CERTAINTY_LABELS).map(([key, label]) => (
-                        <option key={key} value={key}>
-                          {label}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger
+                        className={cn(
+                          "w-full",
+                          showCertaintyError
+                            ? "border-destructive text-destructive"
+                            : CERTAINTY_COLORS[assumption.certainty]
+                        )}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.entries(CERTAINTY_LABELS).map(
+                          ([key, label]) => (
+                            <SelectItem key={key} value={key}>
+                              {label}
+                            </SelectItem>
+                          )
+                        )}
+                      </SelectContent>
+                    </Select>
                   </td>
+
                   <td className="p-3 text-center">
-                    <div className="flex justify-center gap-2">
-                      <button
+                    <div className="flex justify-center gap-0">
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => {
                           setEditingId(assumption.id);
                           setEditValue(assumption.description);
@@ -181,15 +206,18 @@ export const AssumptionsTable = ({
                         className="text-gray-600 hover:text-purple-600 transition"
                         aria-label="Edit assumption"
                       >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
+                        <Edit2 />
+                      </Button>
+
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => onDelete(assumption.id)}
                         className="text-gray-600 hover:text-red-600 transition"
                         aria-label="Delete assumption"
                       >
-                        <Trash2 size={16} />
-                      </button>
+                        <Trash2 />
+                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -198,7 +226,8 @@ export const AssumptionsTable = ({
               <tr className=" border-gray-200 bg-gray-50/30">
                 <td className="p-3">
                   <InputGroup>
-                    <InputGroupInput ref={newDescriptionInputRef}
+                    <InputGroupInput
+                      ref={newDescriptionInputRef}
                       type="text"
                       value={newDescription}
                       onChange={(e) => setNewDescription(e.target.value)}
@@ -230,30 +259,43 @@ export const AssumptionsTable = ({
                 </td>
 
                 <td className="p-3 relative">
-                  <select
+                  <Select
                     value={newCertainty}
-                    onChange={(e) =>
-                      handleCertaintyChange(e.target.value as Certainty)
+                    onValueChange={(value) =>
+                      handleCertaintyChange(value as Certainty)
                     }
-                    className={`px-3 py-1 rounded-md text-sm font-medium border cursor-pointer transition ${
-                      showCertaintyError
-                        ? "border-destructive text-destructive bg-red-50"
-                        : CERTAINTY_COLORS[newCertainty]
-                    }`}
                     aria-label="Select certainty level"
                     aria-invalid={showCertaintyError}
                   >
-                    {Object.entries(CERTAINTY_LABELS).map(([key, label]) => (
-                      <option key={key} value={key}>
-                        {label}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger
+                      className={cn(
+                        "w-full",
+                        showCertaintyError
+                          ? "border-destructive text-destructive"
+                          : ""
+                      )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(CERTAINTY_LABELS).map(([key, label]) => (
+                        <SelectItem
+                          key={key}
+                          value={key}
+                          disabled={key === "all"}
+                        >
+                          {label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </td>
 
                 <td className="p-3 text-center">
-                  <div className="flex justify-center gap-2">
-                    <button
+                  <div className="flex justify-center gap-0">
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={handleFocusInput}
                       disabled={!isAddEnabled}
                       className={`transition ${
@@ -262,19 +304,22 @@ export const AssumptionsTable = ({
                       aria-label="Add assumption"
                     >
                       <Edit2 size={16} />
-                    </button>
-                    <button
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={resetStates}
                       disabled={!isAddEnabled}
                       className={`transition ${
                         isAddEnabled
-                          ? "text-red-600 hover:text-red-700 cursor-pointer"
+                          ? "hover:text-red-700 cursor-pointer"
                           : "text-gray-300 cursor-not-allowed"
                       }`}
                       aria-label="Clear input"
                     >
                       <Trash2 size={16} />
-                    </button>
+                    </Button>
                   </div>
                 </td>
               </tr>
