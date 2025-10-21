@@ -161,6 +161,7 @@ export const AssumptionsTable = ({
                       assumption.description
                     )}
                   </td>
+
                   <td className="p-3">
                     <Select
                       value={assumption.certainty}
@@ -170,14 +171,11 @@ export const AssumptionsTable = ({
                         })
                       }
                       aria-label="Select certainty level"
-                      aria-invalid={showCertaintyError}
                     >
                       <SelectTrigger
                         className={cn(
                           "w-full",
-                          showCertaintyError
-                            ? "border-destructive text-destructive"
-                            : CERTAINTY_COLORS[assumption.certainty]
+                          CERTAINTY_COLORS[assumption.certainty]
                         )}
                       >
                         <SelectValue />
