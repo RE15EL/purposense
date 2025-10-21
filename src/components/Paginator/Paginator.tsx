@@ -1,6 +1,15 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 
 interface PaginatorProps {
   currentPage: number;
@@ -52,7 +61,7 @@ export const Paginator = ({
       <div className="text-sm text-gray-700">
         Showing{" "}
         <span className="font-medium">
-          {currentPage} – {itemsPerPage}
+          {currentPage} – {endItem}
         </span>{" "}
         of <span className="font-medium">{totalItems}</span>
       </div>
@@ -60,28 +69,32 @@ export const Paginator = ({
       <div className="flex items-center gap-2">
         {/* Rows per page selector */}
         <div className="flex items-center gap-2">
-          <label htmlFor="rows-per-page" className="text-sm text-gray-700">
+          <Label htmlFor="rows-per-page" className="text-sm font-normal">
             Rows per page
-          </label>
-          <select
-            id="rows-per-page"
-            value={itemsPerPage}
-            onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 cursor-pointer"
+          </Label>
+          <Select
+            value={itemsPerPage.toString()}
+            onValueChange={(value) => handleItemsPerPageChange(Number(value))}
           >
-            {PAGE_SIZE_OPTIONS.map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-fit">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {PAGE_SIZE_OPTIONS.map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Page navigation */}
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={handlePrevious}
             disabled={!canGoPrevious}
+            variant="secondary"
             className={`p-1.5 rounded-md transition ${
               canGoPrevious
                 ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -90,16 +103,17 @@ export const Paginator = ({
             aria-label="Previous page"
           >
             <ChevronLeft size={20} />
-          </button>
+          </Button>
 
           <span className="text-sm text-gray-700 min-w-[100px] text-center">
             Page <span className="font-medium">{currentPage}</span> of{" "}
             <span className="font-medium">{totalPages || 1}</span>
           </span>
 
-          <button
+          <Button
             onClick={handleNext}
             disabled={!canGoNext}
+            variant="secondary"
             className={`p-1.5 rounded-md transition ${
               canGoNext
                 ? "text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -108,7 +122,7 @@ export const Paginator = ({
             aria-label="Next page"
           >
             <ChevronRight size={20} />
-          </button>
+          </Button>
         </div>
       </div>
     </div>
