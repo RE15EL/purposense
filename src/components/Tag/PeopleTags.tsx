@@ -42,7 +42,7 @@ export const PeopleTags = ({ tags, onAdd, onRemove }: TagProps) => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Add a person (press Enter)"
-          className="w-full outline-none text-sm mb-1.5"
+          className="w-full text-sm mb-1.5"
         />
 
         <Hint caption="Add each participant type and press Enter" />
