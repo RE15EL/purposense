@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { AppState, Assumption, UIState } from "@/types";
+import { AppState, Assumption, Certainty, UIState } from "@/types";
 
 export const useAppState = () => {
   const [state, setState] = useState<AppState>({
@@ -39,8 +39,9 @@ export const useAppState = () => {
     setState((s) => ({ ...s, people: s.people.filter((_, i) => i !== index) }));
   };
 
-  const addAssumption = (description: string) => {
+  const addAssumption = (description: string, certainty: Certainty) => {
     if (!description.trim()) return;
+
     setState((s) => ({
       ...s,
       assumptions: [
@@ -48,7 +49,7 @@ export const useAppState = () => {
         {
           id: Date.now().toString(),
           description: description.trim(),
-          certainty: "moderately_certain",
+          certainty,
         },
       ],
     }));
