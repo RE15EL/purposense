@@ -1,19 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { CERTAINTY_COLORS, CERTAINTY_LABELS } from "@/lib/constants";
 import { Check, Edit2, Trash2 } from "lucide-react";
-import { Assumption, Certainty } from "@/types";
-
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupButton,
   InputGroupInput,
 } from "../ui/input-group";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Paginator } from "../Paginator/Paginator";
+
+import { CERTAINTY_COLORS, CERTAINTY_LABELS } from "@/lib/constants";
+import { Assumption, Certainty } from "@/types";
 
 interface AssumptionsTableProps {
   assumptions: Assumption[];
@@ -32,10 +32,15 @@ export const AssumptionsTable = ({
   editingId,
   setEditingId,
 }: AssumptionsTableProps) => {
-  const [newDescription, setNewDescription] = useState("");
+  const [newDescription, setNewDescription] = useState<string>("");
   const [newCertainty, setNewCertainty] = useState<Certainty>("all");
-  const [showCertaintyError, setShowCertaintyError] = useState(false);
-  const [editValue, setEditValue] = useState("");
+  const [showCertaintyError, setShowCertaintyError] = useState<boolean>(false);
+  const [editValue, setEditValue] = useState<string>("");
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(5);
+
+  const newDescriptionInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddRow = () => {
     const trimmed = newDescription.trim();
@@ -75,8 +80,28 @@ export const AssumptionsTable = ({
     }
   };
 
+  const handleFocusInput = () => {
+    newDescriptionInputRef.current?.focus();
+  };
+
   const isAddEnabled =
     newDescription.trim().length > 0 && newCertainty !== "all";
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedAssumptions = assumptions.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handleItemsPerPageChange = (newItemsPerPage: number) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page
+  };
 
   return (
     <Card>
@@ -102,7 +127,7 @@ export const AssumptionsTable = ({
             </thead>
 
             <tbody>
-              {assumptions.map((assumption) => (
+              {paginatedAssumptions.map((assumption) => (
                 <tr
                   key={assumption.id}
                   className="border-b border-gray-200 hover:bg-gray-50"
@@ -170,10 +195,10 @@ export const AssumptionsTable = ({
                 </tr>
               ))}
 
-              <tr className="border-b border-gray-200 bg-gray-50/30">
+              <tr className=" border-gray-200 bg-gray-50/30">
                 <td className="p-3">
                   <InputGroup>
-                    <InputGroupInput
+                    <InputGroupInput ref={newDescriptionInputRef}
                       type="text"
                       value={newDescription}
                       onChange={(e) => setNewDescription(e.target.value)}
@@ -203,6 +228,7 @@ export const AssumptionsTable = ({
                     </InputGroupAddon>
                   </InputGroup>
                 </td>
+
                 <td className="p-3 relative">
                   <select
                     value={newCertainty}
@@ -224,10 +250,11 @@ export const AssumptionsTable = ({
                     ))}
                   </select>
                 </td>
+
                 <td className="p-3 text-center">
                   <div className="flex justify-center gap-2">
                     <button
-                      onClick={handleAddRow}
+                      onClick={handleFocusInput}
                       disabled={!isAddEnabled}
                       className={`transition ${
                         !isAddEnabled && "text-gray-300 cursor-not-allowed "
@@ -249,6 +276,18 @@ export const AssumptionsTable = ({
                       <Trash2 size={16} />
                     </button>
                   </div>
+                </td>
+              </tr>
+
+              <tr className="border-none">
+                <td colSpan={3} className="p-0 m-0 border-0 bg-transparent">
+                  <Paginator
+                    currentPage={currentPage}
+                    totalItems={assumptions.length}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                  />
                 </td>
               </tr>
             </tbody>
