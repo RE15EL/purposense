@@ -69,7 +69,10 @@ export const Paginator = ({
       <div className="flex items-center gap-2">
         {/* Rows per page selector */}
         <div className="flex items-center gap-2">
-          <Label htmlFor="rows-per-page" className="text-sm font-normal">
+          <Label
+            htmlFor="rows-per-page"
+            className="text-sm font-normal hidden sm:flex"
+          >
             Rows per page
           </Label>
           <Select
@@ -105,10 +108,11 @@ export const Paginator = ({
             <ChevronLeft size={20} />
           </Button>
 
-          <span className="text-sm text-gray-700 min-w-[100px] text-center">
-            Page <span className="font-medium">{currentPage}</span> of{" "}
+          <p className="text-sm text-gray-700 sm:min-w-[100px] flex items-center justify-center gap-2">
+            <span className="hidden sm:block">Page</span>{" "}
+            <span className="font-medium">{currentPage}</span> of{" "}
             <span className="font-medium">{totalPages || 1}</span>
-          </span>
+          </p>
 
           <Button
             onClick={handleNext}

@@ -23,6 +23,7 @@ import { Paginator } from "../Paginator/Paginator";
 import { CERTAINTY_COLORS, CERTAINTY_LABELS } from "@/lib/constants";
 import { Assumption, Certainty } from "@/types";
 import { cn } from "@/lib/utils";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 interface AssumptionsTableProps {
   assumptions: Assumption[];
@@ -324,13 +325,18 @@ export const AssumptionsTable = ({
 
               <tr className="border-none">
                 <td colSpan={3} className="p-0 m-0 border-0 bg-transparent">
-                  <Paginator
-                    currentPage={currentPage}
-                    totalItems={assumptions.length}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={handlePageChange}
-                    onItemsPerPageChange={handleItemsPerPageChange}
-                  />
+                  <>
+                    <ScrollArea className="min-w-full rounded-md whitespace-nowrap">
+                      <Paginator
+                        currentPage={currentPage}
+                        totalItems={assumptions.length}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                      />
+                      <ScrollBar orientation="horizontal" />
+                    </ScrollArea>
+                  </>
                 </td>
               </tr>
             </tbody>
