@@ -10,7 +10,7 @@ export const ShowMoreOrLess = ({
   handleShowMore,
 }: ShowMoreOrLess) => {
   return (
-    <div className="p-3 border-t border-gray-200">
+    <div className="p-0">
       <button
         onClick={handleShowMore}
         className="w-full text-sm text-brand hover:text-brand/80 font-medium transition-colors"

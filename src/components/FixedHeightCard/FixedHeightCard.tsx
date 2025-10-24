@@ -27,7 +27,7 @@ export const FixedHeightCard = ({
   dashed = false,
 }: Props) => (
   <Card
-    className={`h-96 pb-0 pt-4 gap-y-0 overflow-hidden ${
+    className={`h-[400px] pb-0 pt-4 gap-y-0 overflow-hidden ${
       dashed && "border-2 border-dashed border-brand"
     } ${className}`}
   >
@@ -40,9 +40,9 @@ export const FixedHeightCard = ({
       )}
     </CardHeader>
 
-    <CardContent className="p-0">{children}</CardContent>
+    <CardContent className="p-0 flex-1">{children}</CardContent>
 
-    <CardFooter className="bg-brand h-14 w-full pb-0">
+    <CardFooter className="bg-brand min-h-12 w-full pb-0">
       <p className="text-base font-semibold text-white mx-auto">{zonePill}</p>
     </CardFooter>
   </Card>
