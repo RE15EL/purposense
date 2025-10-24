@@ -31,8 +31,6 @@ This project implements the **"Mini Theory of Change"** interface, following the
 | **UI Library**    | [Shadcn UI](https://ui.shadcn.com/)                          |
 | **Styling**       | [Tailwind CSS](https://tailwindcss.com/) v4, [tw-animate-css](https://www.npmjs.com/package/tw-animate-css) |
 | **Icons**         | [lucide-react](https://lucide.dev/)                          |
-| **State Mngmt.**  | [Zustand](https://zustand.surge.sh/) 5.0.8                   |
-| **Validation**    | [Zod](https://zod.dev/) 4.1.12                               |
 | **Utilities**     | `clsx`, `tailwind-merge`, `class-variance-authority`         |
 
 ## ⚙️ Installation
@@ -76,7 +74,8 @@ purposense/
 ├── src/
 │   ├── app/             # Main application files
 │   ├── components/      # Reusable UI components
+│   ├── hooks/           # Customs hooks
 │   └── lib/             # Utilities and helper functions
+│   └── types/           # Utilities types and interfaces
 ├── package.json         # Project dependencies and scripts
-└── README.md            # This file
 ```

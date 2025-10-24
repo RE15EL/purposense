@@ -62,12 +62,6 @@ export interface CardItem {
   text: string;
 }
 
-export interface DirectOutCome {
-  id: string;
-  title: string;
-  subOutcomes: CardItem[];
-}
-
 export interface FlowStep {
   id: string;
   icon: React.ReactNode;

@@ -6,15 +6,16 @@ import { toast } from "sonner";
 import { AppState, Assumption, Certainty, UIState } from "@/types";
 
 export const useAppState = () => {
-  const [state, setState] = useState<AppState>({
+  const initial = {
     reason: "",
     people: [],
     assumptions: [],
     directOutcomes: [],
     indirectOutcomes: [],
     ultimateImpact: [],
-  });
-
+  };
+  
+  const [state, setState] = useState<AppState>(initial);
   const [initialState, setInitialState] = useState<AppState>(state);
   const [uiState, setUiState] = useState<UIState>({
     expandedOutcomeId: null,
@@ -27,7 +28,7 @@ export const useAppState = () => {
 
   const isDirty = JSON.stringify(state) !== JSON.stringify(initialState);
 
-  const resetDirtyState = () => setInitialState(state);
+  const resetDirtyState = () => setInitialState(initial);
 
   const addTag = (tag: string) => {
     const normalized = tag.toLowerCase().trim();
@@ -213,85 +214,44 @@ export const useAppState = () => {
 
     toast.success("Changes saved successfully!");
 
-    // Reset dirty state
     resetDirtyState();
   };
 
-  //TODO: Direct Outcomes handlers
-  // const addDirectOutcome = (title: string) => {
-  //   setDirectOutcomes([
-  //     ...directOutcomes,
-  //     { id: Date.now().toString(), title, subOutcomes: [] },
-  //   ]);
-  // };
-
-  // const deleteDirectOutcome = (id) => {
-  //   setDirectOutcomes(directOutcomes.filter((o) => o.id !== id));
-  // };
-
-  // const addSubOutcome = (outcomeId, text) => {
-  //   setDirectOutcomes(
-  //     directOutcomes.map((o) =>
-  //       o.id === outcomeId
-  //         ? {
-  //             ...o,
-  //             subOutcomes: [
-  //               ...o.subOutcomes,
-  //               { id: Date.now().toString(), text },
-  //             ],
-  //           }
-  //         : o
-  //     )
-  //   );
-  // };
-
-  // const updateSubOutcome = (outcomeId, subId, text) => {
-  //   setDirectOutcomes(
-  //     directOutcomes.map((o) =>
-  //       o.id === outcomeId
-  //         ? {
-  //             ...o,
-  //             subOutcomes: o.subOutcomes.map((s) =>
-  //               s.id === subId ? { ...s, text } : s
-  //             ),
-  //           }
-  //         : o
-  //     )
-  //   );
-  // };
-
-  // const deleteSubOutcome = (outcomeId, subId) => {
-  //   setDirectOutcomes(
-  //     directOutcomes.map((o) =>
-  //       o.id === outcomeId
-  //         ? { ...o, subOutcomes: o.subOutcomes.filter((s) => s.id !== subId) }
-  //         : o
-  //     )
-  //   );
-  // };
-
   return {
+    // State
     state,
     setState,
     uiState,
     setUiState,
     isDirty,
+
+    // People (Tags)
     addTag,
     removeTag,
+
+    // Assumptions
     addAssumption,
     updateAssumption,
     deleteAssumption,
+
+    // Direct Outcomes
     addDirectOutcome,
     deleteDirectOutcome,
     addSubOutcome,
     updateSubOutcome,
     deleteSubOutcome,
+
+    // Indirect Outcomes
     addIndirectOutcome,
     updateIndirectOutcome,
     deleteIndirectOutcome,
+
+    // Ultimate Impact
     addUltimateImpact,
     updateUltimateImpact,
     deleteUltimateImpact,
+
+    // Save
     handleSave,
   };
 };

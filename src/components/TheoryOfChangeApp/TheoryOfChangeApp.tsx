@@ -6,85 +6,58 @@ import { useState } from "react";
 import { useAppState } from "@/hooks/useAppState";
 
 // components
+import { Button } from "../ui/button";
 import { PageTitle } from "../PageTitle/PageTitle";
 import { ReasonSection } from "../Reason/Reason";
 import { PeopleTags } from "../Tag/PeopleTags";
-import { Button } from "../ui/button";
 import { AssumptionsTable } from "../Assumptions/Assumptions";
 import { DirectOutcomesCard } from "../DirectOutcomesCard/DirectOutcomesCard";
 import { ProgrammesCard } from "../ProgrammesCard/ProgrammesCard";
 import { EditableListCard } from "../EditableListCard/EditableListCard";
-import { indirectOutcomesMock } from "@/lib/mocks/indirectOutcomes";
-import { CardItem, DirectOutCome } from "@/types";
-import { directOutComesMock } from "@/lib/mocks/directOutcomes";
-import { ultimateImpactMock } from "@/lib/mocks/ultimateImpact";
 import { FlowIndicator } from "../FlowIndicator/FlowIndicator";
 
 const TheoryOfChange = () => {
   const {
+    // State
     state,
     setState,
+    uiState,
+    setUiState,
+    isDirty,
+
+    // People (Tags)
     addTag,
     removeTag,
+
+    // Assumptions
     addAssumption,
-    deleteAssumption,
     updateAssumption,
+    deleteAssumption,
+
+    // Direct Outcomes
     addDirectOutcome,
     deleteDirectOutcome,
     addSubOutcome,
     updateSubOutcome,
     deleteSubOutcome,
-    uiState,
-    setUiState,
-    isDirty,
+
+    // Indirect Outcomes
+    addIndirectOutcome,
+    updateIndirectOutcome,
+    deleteIndirectOutcome,
+
+    // Ultimate Impact
+    addUltimateImpact,
+    updateUltimateImpact,
+    deleteUltimateImpact,
+
+    // Save
     handleSave,
   } = useAppState();
 
   const [editingAssumptionId, setEditingAssumptionId] = useState<string | null>(
     null
   );
-
-  const [directOutcomes, setDirectOutcomes] =
-    useState<DirectOutCome[]>(directOutComesMock);
-
-  const [indirectOutcomes, setIndirectOutcomes] =
-    useState<CardItem[]>(indirectOutcomesMock);
-
-  const [ultimateImpact, setUltimateImpact] =
-    useState<CardItem[]>(ultimateImpactMock);
-
-  // Indirect Outcomes handlers
-  const addIndirectOutcome = (text: string) => {
-    setIndirectOutcomes([
-      ...indirectOutcomes,
-      { id: Date.now().toString(), text },
-    ]);
-  };
-
-  const updateIndirectOutcome = (id: string, text: string) => {
-    setIndirectOutcomes(
-      indirectOutcomes.map((i) => (i.id === id ? { ...i, text } : i))
-    );
-  };
-
-  const deleteIndirectOutcome = (id: string) => {
-    setIndirectOutcomes(indirectOutcomes.filter((i) => i.id !== id));
-  };
-
-  // Ultimate Impact handlers
-  const addUltimateImpact = (text: string) => {
-    setUltimateImpact([...ultimateImpact, { id: Date.now().toString(), text }]);
-  };
-
-  const updateUltimateImpact = (id: string, text: string) => {
-    setUltimateImpact(
-      ultimateImpact.map((i) => (i.id === id ? { ...i, text } : i))
-    );
-  };
-
-  const deleteUltimateImpact = (id: string) => {
-    setUltimateImpact(ultimateImpact.filter((i) => i.id !== id));
-  };
 
   return (
     <div className="bg-linear-to-br from-gray-50 to-gray-100 p-6 space-y-4">
@@ -146,7 +119,7 @@ const TheoryOfChange = () => {
           description="What we contribute over time"
           zonePill="Zone of indirect influence"
           type="indirect_outcomes"
-          items={indirectOutcomes}
+          items={state.indirectOutcomes}
           onAdd={addIndirectOutcome}
           onUpdate={updateIndirectOutcome}
           onDelete={deleteIndirectOutcome}
@@ -157,7 +130,7 @@ const TheoryOfChange = () => {
           description="The lasting change we seek"
           zonePill="Zone of contribution"
           type="ultimate_impact"
-          items={ultimateImpact}
+          items={state.ultimateImpact}
           onAdd={addUltimateImpact}
           onUpdate={updateUltimateImpact}
           onDelete={deleteUltimateImpact}
