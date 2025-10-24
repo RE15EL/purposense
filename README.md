@@ -79,3 +79,8 @@ purposense/
 │   └── types/           # Utilities types and interfaces
 ├── package.json         # Project dependencies and scripts
 ```
+
+## 🌍 Live Demo
+
+The project is deployed in:  
+👉 [https://purposense.vercel.app](https://purposense.vercel.app)

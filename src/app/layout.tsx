@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Theory of Change | Technical Challenge",
+  title: "Purposense  | Technical Challenge",
   description:
     "Mini Theory of Change application built with Next.js, TypeScript, Tailwind CSS, and shadcn/ui. Technical challenge for full-stack developer position.",
   keywords: [
