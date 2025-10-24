@@ -201,6 +201,21 @@ export const DirectOutcomesCard = ({
                         if (e.key === "Enter") {
                           e.preventDefault();
                           const text = newSubOutcomeText[outcome.id] || "";
+
+                          if (!text) return;
+
+                          const exist = outcome.subOutcomes.some(
+                            (sub) =>
+                              sub.text.toLowerCase() === text.toLowerCase()
+                          );
+
+                          if (exist) {
+                            toast.info(
+                              "A suboutcome with that text already exists!"
+                            );
+                            return;
+                          }
+
                           if (text.trim()) {
                             onAddSubOutcome(outcome.id, text.trim());
                             setNewSubOutcomeText({
