@@ -1,11 +1,12 @@
 "use client";
 
 import { CardItem } from "@/types";
-import { useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { FixedHeightCard } from "../FixedHeightCard/FixedHeightCard";
 import { Edit2, Trash2 } from "lucide-react";
 import { Input } from "../ui/input";
 import { IndirectOutcomesIcon, UltimateImpactIcon } from "../Icons/Icons";
+import { toast } from "sonner";
 
 interface EditableListCardProps {
   title: string;
@@ -77,8 +78,26 @@ export const EditableListCard = ({
     setEditValue("");
   };
 
+  const handleAddNewIndirectOutcomes = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const trimmed = newItemText.trim();
+
+      if (trimmed) {
+        const exist = items.some(({ text }) => text === trimmed);
+        if (exist) {
+          toast.info("There is already one with that title!");
+          return;
+        }
+
+        onAdd(newItemText.trim());
+        setNewItemText("");
+      }
+    }
+  };
+
   return (
-    <div >
+    <div>
       <div className="flex justify-center items-center lg:hidden w-full scale-60">
         {type === "indirect_outcomes" ? (
           <IndirectOutcomesIcon />
@@ -117,6 +136,15 @@ export const EditableListCard = ({
                       cancelEdit();
                     }
                   }}
+                  // onKeyDown={(e) => {
+                  //   if (e.key === "Enter") {
+                  //     e.preventDefault();
+                  //     saveEdit(item.id);
+                  //   } else if (e.key === "Escape") {
+                  //     e.preventDefault();
+                  //     cancelEdit();
+                  //   }
+                  // }}
                   className="flex-1 p-2 text-sm"
                 />
               ) : (
@@ -144,15 +172,7 @@ export const EditableListCard = ({
               type="text"
               value={newItemText}
               onChange={(e) => setNewItemText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  if (newItemText.trim()) {
-                    onAdd(newItemText.trim());
-                    setNewItemText("");
-                  }
-                }
-              }}
+              onKeyDown={(e) => handleAddNewIndirectOutcomes(e)}
               placeholder="Type and press Enter to add..."
               className="flex-1 p-2 text-sm"
             />

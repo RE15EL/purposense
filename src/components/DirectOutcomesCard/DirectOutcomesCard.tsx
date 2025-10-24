@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -9,6 +9,7 @@ import { FixedHeightCard } from "../FixedHeightCard/FixedHeightCard";
 import { ShowMoreOrLess } from "../ShowMoreOrLess/ShowMoreOrLess";
 import { DirectOutcome } from "@/types";
 import { DirectOutcomesIcon } from "../Icons/Icons";
+import { toast } from "sonner";
 
 interface DirectOutcomesCardProps {
   outcomes: DirectOutcome[];
@@ -90,8 +91,25 @@ export const DirectOutcomesCard = ({
     setEditValue("");
   };
 
+  const handleAddNewOutcome = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const trimmed = newOutcomeTitle.trim();
+
+      if (trimmed) {
+        const exist = outcomes.some(({ title }) => title === trimmed);
+        if (exist) {
+          toast.info("There is already one with that title!");
+          return;
+        }
+        onAddOutcome(trimmed);
+        setNewOutcomeTitle("");
+      }
+    }
+  };
+
   return (
-    <div >
+    <div>
       <div className="flex justify-center items-center lg:hidden w-full scale-60">
         <DirectOutcomesIcon />
       </div>
@@ -106,14 +124,14 @@ export const DirectOutcomesCard = ({
           className="h-64 overflow-auto scrollbar-hide p-4 space-y-1"
         >
           {outcomes.slice(0, visibleCount).map((outcome) => (
-            <div key={outcome.id} className="border border-gray-200 rounded-lg">
+            <div key={outcome.id} className="group border-b">
               <button
                 onClick={() =>
                   setExpandedId(expandedId === outcome.id ? null : outcome.id)
                 }
-                className="w-full p-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                className="w-full px-1 py-2 flex items-center justify-between group-hover:bg-brand/10 transition-colors"
               >
-                <span className="font-medium text-sm text-gray-900">
+                <span className="text-sm font-medium text-gray-500">
                   {outcome.title}
                 </span>
                 <ChevronDown
@@ -125,7 +143,7 @@ export const DirectOutcomesCard = ({
               </button>
 
               {expandedId === outcome.id && (
-                <div className="border-t border-gray-200 p-3 bg-gray-50 space-y-2">
+                <div className="group-hover:bg-brand/10 p-3 space-y-2 ">
                   {outcome.subOutcomes.map((sub) => (
                     <div key={sub.id} className="flex gap-2 items-center">
                       {editingId === sub.id ? (
@@ -215,28 +233,10 @@ export const DirectOutcomesCard = ({
               type="text"
               value={newOutcomeTitle}
               onChange={(e) => setNewOutcomeTitle(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  if (newOutcomeTitle.trim()) {
-                    onAddOutcome(newOutcomeTitle.trim());
-                    setNewOutcomeTitle("");
-                  }
-                }
-              }}
+              onKeyDown={(e) => handleAddNewOutcome(e)}
               placeholder="Add new outcome..."
-              className="flex-1 p-2 text-sm"
+              className="flex-1 p-2 text-sm mt-2"
             />
-            {/* <Button
-            onClick={() => {
-              if (newOutcomeTitle.trim()) {
-                onAddOutcome(newOutcomeTitle.trim());
-                setNewOutcomeTitle("");
-              }
-            }}
-          >
-            <Plus size={16} />
-          </Button> */}
           </div>
         </div>
 

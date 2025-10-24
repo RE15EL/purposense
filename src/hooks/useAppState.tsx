@@ -4,19 +4,21 @@ import { useState } from "react";
 
 import { toast } from "sonner";
 import { AppState, Assumption, Certainty, UIState } from "@/types";
+import { directOutcomesMock } from "@/lib/mocks/directOutcomes";
 
 export const useAppState = () => {
-  const initial = {
+  const getInitialState = (): AppState => ({
     reason: "",
     people: [],
     assumptions: [],
-    directOutcomes: [],
+    directOutcomes: directOutcomesMock,
     indirectOutcomes: [],
     ultimateImpact: [],
-  };
-  
-  const [state, setState] = useState<AppState>(initial);
-  const [initialState, setInitialState] = useState<AppState>(state);
+  });
+
+  const [state, setState] = useState<AppState>(getInitialState());
+  const [initialState, setInitialState] = useState<AppState>(getInitialState());
+
   const [uiState, setUiState] = useState<UIState>({
     expandedOutcomeId: null,
     editingId: null,
@@ -28,7 +30,7 @@ export const useAppState = () => {
 
   const isDirty = JSON.stringify(state) !== JSON.stringify(initialState);
 
-  const resetDirtyState = () => setInitialState(initial);
+  const resetDirtyState = () => setInitialState(state);
 
   const addTag = (tag: string) => {
     const normalized = tag.toLowerCase().trim();
