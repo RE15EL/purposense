@@ -2,14 +2,14 @@
 
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 
+import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { ChevronDown, Edit2, Trash2 } from "lucide-react";
 import { FixedHeightCard } from "../FixedHeightCard/FixedHeightCard";
 import { ShowMoreOrLess } from "../ShowMoreOrLess/ShowMoreOrLess";
-import { DirectOutcome } from "@/types";
 import { DirectOutcomesIcon } from "../Icons/Icons";
-import { toast } from "sonner";
+import { DirectOutcome } from "@/types";
 
 interface DirectOutcomesCardProps {
   outcomes: DirectOutcome[];
@@ -109,7 +109,7 @@ export const DirectOutcomesCard = ({
   };
 
   return (
-    <div>
+    <>
       <div className="flex justify-center items-center lg:hidden w-full scale-60">
         <DirectOutcomesIcon />
       </div>
@@ -266,6 +266,6 @@ export const DirectOutcomesCard = ({
           )}
         </div>
       </FixedHeightCard>
-    </div>
+    </>
   );
 };
