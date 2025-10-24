@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { toast } from "sonner";
 import { AppState, Assumption, Certainty, UIState } from "@/types";
 
 export const useAppState = () => {
@@ -204,10 +205,70 @@ export const useAppState = () => {
       indirectOutcomes: state.indirectOutcomes,
       ultimateImpact: state.ultimateImpact,
     };
-    console.log("💾 Saved:", output);
-    alert("✓ Saved!");
+
+    console.log(
+      "💾 Theory of Change - Saved Data:",
+      JSON.stringify(output, null, 2)
+    );
+
+    toast.success("Changes saved successfully!");
+
+    // Reset dirty state
     resetDirtyState();
   };
+
+  //TODO: Direct Outcomes handlers
+  // const addDirectOutcome = (title: string) => {
+  //   setDirectOutcomes([
+  //     ...directOutcomes,
+  //     { id: Date.now().toString(), title, subOutcomes: [] },
+  //   ]);
+  // };
+
+  // const deleteDirectOutcome = (id) => {
+  //   setDirectOutcomes(directOutcomes.filter((o) => o.id !== id));
+  // };
+
+  // const addSubOutcome = (outcomeId, text) => {
+  //   setDirectOutcomes(
+  //     directOutcomes.map((o) =>
+  //       o.id === outcomeId
+  //         ? {
+  //             ...o,
+  //             subOutcomes: [
+  //               ...o.subOutcomes,
+  //               { id: Date.now().toString(), text },
+  //             ],
+  //           }
+  //         : o
+  //     )
+  //   );
+  // };
+
+  // const updateSubOutcome = (outcomeId, subId, text) => {
+  //   setDirectOutcomes(
+  //     directOutcomes.map((o) =>
+  //       o.id === outcomeId
+  //         ? {
+  //             ...o,
+  //             subOutcomes: o.subOutcomes.map((s) =>
+  //               s.id === subId ? { ...s, text } : s
+  //             ),
+  //           }
+  //         : o
+  //     )
+  //   );
+  // };
+
+  // const deleteSubOutcome = (outcomeId, subId) => {
+  //   setDirectOutcomes(
+  //     directOutcomes.map((o) =>
+  //       o.id === outcomeId
+  //         ? { ...o, subOutcomes: o.subOutcomes.filter((s) => s.id !== subId) }
+  //         : o
+  //     )
+  //   );
+  // };
 
   return {
     state,

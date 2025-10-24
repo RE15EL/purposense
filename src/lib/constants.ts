@@ -1,3 +1,5 @@
+import { Programme } from "@/types";
+
 export const CERTAINTY_COLORS = {
   all: " text-gray-800 border-gray-300",
   very_certain: " text-green-800 border-green-300",
@@ -11,3 +13,5 @@ export const CERTAINTY_LABELS = {
   moderately_certain: "Moderately certain",
   uncertain: "Uncertain",
 };
+
+

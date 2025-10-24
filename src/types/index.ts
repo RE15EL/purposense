@@ -50,3 +50,27 @@ export interface UIState {
   showMoreUltimate: boolean;
   parentId?: string;
 }
+
+export interface Programme {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface CardItem {
+  id: string;
+  text: string;
+}
+
+export interface DirectOutCome {
+  id: string;
+  title: string;
+  subOutcomes: CardItem[];
+}
+
+export interface FlowStep {
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  color: string;
+}
